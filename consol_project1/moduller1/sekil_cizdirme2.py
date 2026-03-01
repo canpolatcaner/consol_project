@@ -1,3 +1,4 @@
+#design_menu
 import turtle
 try:
     uzunluk = int(input("Lütfen bir uzunluk giriniz:\t"))

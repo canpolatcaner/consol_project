@@ -1,4 +1,4 @@
-#hesap_makinesi
+#calculator
 import turtle
 import math
 

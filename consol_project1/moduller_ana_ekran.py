@@ -1,3 +1,4 @@
+#main_menu
 while True:
     print("-"*30)
     print("╔═══════════════════════╗")
