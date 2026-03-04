@@ -5,11 +5,11 @@
 ## *_consol(e)ing..._*:laughing:
 
 <p align="center">
-  <img src="consol_mainmenu.JPG" alt="anaekran" width="100" height="100"/>
+  <img src="consol_mainmenu.JPG" alt="anaekran" width="200" height="200"/>
 </p>
 
 <p align="left">
-  <img src="consol_submenu1.JPG" alt="altmenu1" width="100" height="100"/>
+  <img src="consol_submenu1.JPG" alt="altmenu1" width="200" height="200"/>
 </p>
 
 
