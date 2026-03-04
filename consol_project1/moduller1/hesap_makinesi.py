@@ -177,7 +177,7 @@ while True:
             cikarma()
         elif a == 3:
             print("Şekil çizdirme işlemini seçtiniz.\n\n")
-            sekil_cizdirme()
+            import moduller1.sekil_cizdirme2 #sekil_cizdirme()
         elif a == 4:
             print("Sıcaklık dönüştürme işlemini seçtiniz.\n\n")
             sicaklik_degisimi()
