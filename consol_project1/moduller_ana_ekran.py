@@ -1,4 +1,7 @@
 #main_menu
+import moduller1.hesap_makinesi
+import moduller1.sekil_cizdirme2
+
 while True:
     print("-"*30)
     print("╔═══════════════════════╗")
@@ -18,16 +21,16 @@ while True:
         a = int(input("Lütfen bir işlem seçiniz:\t"))
         if a == 1:
             print(f"{a}'e bastınız; Hesaplamalar bölümüne yönlendiriliyorsunuz.\n\n")
-            import moduller1.hesap_makinesi
+            moduller1.hesap_makinesi.calistir()
         elif a == 2:
             print(f"{a}'ye bastınız; Şekil Çizdirme bölümüne yönlendiriliyorsunuz.\n\n")
-            import moduller1.sekil_cizdirme2
+            moduller1.sekil_cizdirme2.calistir()
         elif a == 3:
             print(f"{a}'e bastınız; Oyunlar bölümüne yönlendiriliyorsunuz.\n\n")
-            #import moduller1
+            #moduller1
         elif a == 4:
             print(f"{a}'e bastınız; Telefon Rehberi bölümüne yönlendiriliyorsunuz.\n\n")
-            #import moduller1.
+            #moduller1.
         elif a == 0:
             print('Programdan çıkılıyor...')
             break

@@ -142,53 +142,55 @@ def hesapla_alan():
         print("Hata: Lütfen sayı giriniz!")
         
     
-
-while True:
-    print("-"*30)
-    print("╔═══════════════════════╗")
-    print("║    HESAP MAKİNESİ     ║")
-    print("║                       ║")
-    print("║  1-Toplama            ║")
-    print("║  2-Çıkarma            ║")
-    print("║  3-Çarpma             ║")
-    print("║  4-Bölme              ║")
-    print("║  5-Sıcaklık dönüştürme║")
-    print("║    1. Santigrat'a     ║")
-    print("║    2. Fahrenayt'a     ║")
-    print("║  6-Çevre ve alan bulma║")
-    print("║    1. Kare            ║")
-    print("║    2. Üçgen           ║")
-    print("║    3. Daire           ║")
-    print("║                       ║")
-    print("║  0-Ana Menüye Dön     ║")
-    print("║                       ║")
-    print("║    Seçiminiz nedir?   ║")
-    print("╚═══════════════════════╝")
-    
-    try:
-        secim = int(input("Lütfen bir işlem seçiniz:\t"))
-        if secim == 1:
-            print("Toplama işlemini seçtiniz.\n\n")
-            math_islemi(1)
-        elif secim == 2:
-            print("Çıkarma işlemini seçtiniz.\n\n")
-            math_islemi(2)
-        elif secim == 3:
-            print("Çarpma işlemini seçtiniz.\n\n")
-            math_islemi(3)
-        elif secim == 4:
-            print("Bölme işlemini seçtiniz.\n\n")
-            math_islemi(4)
-        elif secim == 5:
-            print("Sıcaklık dönüştürme işlemini seçtiniz.\n\n")
-            sicaklik_degisimi()
-        elif secim == 6:
-            print("Çevre ve alan hesaplama işlemini seçtiniz.\n\n")
-            hesapla_alan()
-        elif secim == 0:
-            print('Ana menüye dönülüyor...')
-            break
-        else:
-            print("Lütfen Hesap Makinesinde belirtilen işlemlerden birini seçiniz!\n"*3)
-    except ValueError:
-        print("Hata: Lütfen sayı giriniz!")
+def calistir():
+    while True:
+        print("-"*30)
+        print("╔═══════════════════════╗")
+        print("║    HESAP MAKİNESİ     ║")
+        print("║                       ║")
+        print("║  1-Toplama            ║")
+        print("║  2-Çıkarma            ║")
+        print("║  3-Çarpma             ║")
+        print("║  4-Bölme              ║")
+        print("║  5-Sıcaklık dönüştürme║")
+        print("║    1. Santigrat'a     ║")
+        print("║    2. Fahrenayt'a     ║")
+        print("║  6-Çevre ve alan bulma║")
+        print("║    1. Kare            ║")
+        print("║    2. Üçgen           ║")
+        print("║    3. Daire           ║")
+        print("║                       ║")
+        print("║  0-Ana Menüye Dön     ║")
+        print("║                       ║")
+        print("║    Seçiminiz nedir?   ║")
+        print("╚═══════════════════════╝")
+        
+        try:
+            secim = int(input("Lütfen bir işlem seçiniz:\t"))
+            if secim == 1:
+                print("Toplama işlemini seçtiniz.\n\n")
+                math_islemi(1)
+            elif secim == 2:
+                print("Çıkarma işlemini seçtiniz.\n\n")
+                math_islemi(2)
+            elif secim == 3:
+                print("Çarpma işlemini seçtiniz.\n\n")
+                math_islemi(3)
+            elif secim == 4:
+                print("Bölme işlemini seçtiniz.\n\n")
+                math_islemi(4)
+            elif secim == 5:
+                print("Sıcaklık dönüştürme işlemini seçtiniz.\n\n")
+                sicaklik_degisimi()
+            elif secim == 6:
+                print("Çevre ve alan hesaplama işlemini seçtiniz.\n\n")
+                hesapla_alan()
+            elif secim == 0:
+                print('Ana menüye dönülüyor...')
+                break
+            else:
+                print("Lütfen Hesap Makinesinde belirtilen işlemlerden birini seçiniz!\n"*3)
+        except ValueError:
+            print("Hata: Lütfen sayı giriniz!")
+if __name__ == "__main__":
+    calistir()
