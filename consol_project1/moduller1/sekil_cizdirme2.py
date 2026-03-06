@@ -1,5 +1,7 @@
 #design_menu
 import turtle
+import time
+
 try:
     uzunluk = int(input("Lütfen bir uzunluk giriniz:\t"))
     aci = int(input("Lütfen açı değerini giriniz:\t"))
@@ -17,12 +19,14 @@ try:
             k2.forward(uzunluk)
             k2.right(aci)
         k2.right(45)  
-
-    for j in range (12):
+    
+    for j in range (11):
         for b in range (4):
             k1.forward (50)
             k1.right (90)
-        k1.right (30)      
+        k1.right (30)     
+    time.sleep(10)     
 except ValueError:
     print("Hata: Lütfen sayı giriniz!")
+    import moduller_ana_ekran
     

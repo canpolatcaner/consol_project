@@ -1,56 +1,53 @@
 #calculator
-import turtle
+
 import math
 
-def toplama():
+def math_islemi(islem):
     
-    try:
-        a = int(input("İlk sayıyı giriniz:\n"))
-        b = int(input("İkinci sayıyı giriniz:\n"))
-        print("-"*30)
-        print("Sonuç:\t", a+b)
-        
-    except ValueError:
-        print("Hata: Lütfen sayı giriniz!")
+        sayilar = []  
 
-def cikarma():
-    try:
-        a = int(input("İlk sayıyı giriniz:\n"))
-        b = int(input("İkinci sayıyı giriniz:\n"))
-        print("-"*30)
-        print("Sonuç:\t", a-b)
-       
-    except ValueError:
-        print("Hata: Lütfen sayı giriniz!")
+        print("\nSayıları giriniz (bitirmek için 'q'):")
 
-def sekil_cizdirme():
-    try:
-        uzunluk = int(input("Lütfen bir uzunluk giriniz:\t"))
-        aci = int(input("Lütfen açı değerini giriniz:\t"))
-        
-        k1=turtle.Turtle()
-        k1.pensize(5)
-        k1.pencolor("black")
-        k2=turtle.Turtle()
-        k2.pensize(7)
-        k2.pencolor("blue")
-        k1.speed(10)
-        k2.speed(10)    
+        while True:
+            giris = input(f"{len(sayilar) + 1}.sayı:")
+            
+            if giris.lower() == "q":
+                break
 
-        for i in range(8):
-            for a in range (4):
-                k2.forward(uzunluk)
-                k2.right(aci)
-            k2.right(45)  
+            giris = giris.replace(",", ".")
+            if giris.replace(".", "").isdigit():
+                sayilar.append(float(giris)) 
+            else:
+                print("Geçersiz giriş!")
 
-        for j in range (12):
-            for b in range (4):
-                k1.forward (50)
-                k1.right (90)
-            k1.right (30)      
-    except ValueError:
-        print("Hata: Lütfen sayı giriniz!")
-    
+        if  sayilar:           
+            
+            sonuc = sayilar[0]
+            for s in sayilar[1:]:
+                if islem == 1:
+                    sonuc += s
+                elif islem == 2:
+                    sonuc -= s
+                elif islem == 3:
+                    sonuc *= s
+                elif islem == 4:
+                    if s != 0:
+                        sonuc /= s
+                    else:
+                        print("Sıfıra bölme hatası!")
+                        sonuc = None
+                        break
+                else:
+                    print("Geçersiz işlem!")
+                    sonuc = None
+                    break
+
+            if sonuc is not None:
+                print("-"*30)   
+                print("Sonuç:", sonuc)
+                
+        else:
+            print("Hiç sayı girilmedi!")
   
 def sicaklik_degisimi():
     try:
@@ -153,11 +150,12 @@ while True:
     print("║                       ║")
     print("║  1-Toplama            ║")
     print("║  2-Çıkarma            ║")
-    print("║  3-Şekil Çizdirme     ║")
-    print("║  4-Sıcaklık dönüştürme║")
+    print("║  3-Çarpma             ║")
+    print("║  4-Bölme              ║")
+    print("║  5-Sıcaklık dönüştürme║")
     print("║    1. Santigrat'a     ║")
     print("║    2. Fahrenayt'a     ║")
-    print("║  5-Çevre ve alan bulma║")
+    print("║  6-Çevre ve alan bulma║")
     print("║    1. Kare            ║")
     print("║    2. Üçgen           ║")
     print("║    3. Daire           ║")
@@ -168,23 +166,26 @@ while True:
     print("╚═══════════════════════╝")
     
     try:
-        a = int(input("Lütfen bir işlem seçiniz:\t"))
-        if a == 1:
+        secim = int(input("Lütfen bir işlem seçiniz:\t"))
+        if secim == 1:
             print("Toplama işlemini seçtiniz.\n\n")
-            toplama()
-        elif a == 2:
+            math_islemi(1)
+        elif secim == 2:
             print("Çıkarma işlemini seçtiniz.\n\n")
-            cikarma()
-        elif a == 3:
-            print("Şekil çizdirme işlemini seçtiniz.\n\n")
-            import moduller1.sekil_cizdirme2 #sekil_cizdirme()
-        elif a == 4:
+            math_islemi(2)
+        elif secim == 3:
+            print("Çarpma işlemini seçtiniz.\n\n")
+            math_islemi(3)
+        elif secim == 4:
+            print("Bölme işlemini seçtiniz.\n\n")
+            math_islemi(4)
+        elif secim == 5:
             print("Sıcaklık dönüştürme işlemini seçtiniz.\n\n")
             sicaklik_degisimi()
-        elif a == 5:
+        elif secim == 6:
             print("Çevre ve alan hesaplama işlemini seçtiniz.\n\n")
             hesapla_alan()
-        elif a == 0:
+        elif secim == 0:
             print('Ana menüye dönülüyor...')
             break
         else:
