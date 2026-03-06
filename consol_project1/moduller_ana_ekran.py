@@ -1,6 +1,7 @@
 #main_menu
 import moduller1.hesap_makinesi
 import moduller1.sekil_cizdirme2
+import moduller1.oyunlar3
 
 while True:
     print("-"*30)
@@ -27,7 +28,7 @@ while True:
             moduller1.sekil_cizdirme2.calistir()
         elif a == 3:
             print(f"{a}'e bastınız; Oyunlar bölümüne yönlendiriliyorsunuz.\n\n")
-            #moduller1
+            moduller1.oyunlar3.calistir()
         elif a == 4:
             print(f"{a}'e bastınız; Telefon Rehberi bölümüne yönlendiriliyorsunuz.\n\n")
             #moduller1.
