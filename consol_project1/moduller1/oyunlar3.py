@@ -2,28 +2,29 @@ import turtle
 import random
 import time
 
+# --- YARDIMCI FONKSİYONLAR ---
+def ekran_temizle():
+    try:
+        turtle.resetscreen() # Mevcut ekranı temizlemeyi dene
+    except turtle.Terminator:
+        # Eğer ekran kapandıysa, turtle modülünü tazeleyip devam et
+        turtle.TurtleScreen._RUNNING = True 
+    except Exception:
+        pass
+
 # --- TETRİS OYUNU ---
 def tetris_oyunu():
-    # Temel Ayarlar
-    genislik = 10
-    yukseklik = 20
-    hucre_boyutu = 20
-
+    ekran_temizle()
     window = turtle.Screen()
     window.title("Mini Tetris")
     window.bgcolor("black")
     window.setup(width=400, height=600)
     window.tracer(0)
 
-    # Parça Şekilleri (L, S, Z, T, O, I, J)
+    genislik, yukseklik, hucre_boyutu = 10, 20, 20
     sekiller = [
-        [[1, 1, 1], [0, 1, 0]], # T
-        [[0, 2, 2], [2, 2, 0]], # S
-        [[3, 3, 0], [0, 3, 3]], # Z
-        [[4, 0, 0], [4, 4, 4]], # J
-        [[0, 0, 5], [5, 5, 5]], # L
-        [[6, 6, 6, 6]],         # I
-        [[7, 7], [7, 7]]        # O
+        [[1, 1, 1], [0, 1, 0]], [[0, 2, 2], [2, 2, 0]], [[3, 3, 0], [0, 3, 3]],
+        [[4, 0, 0], [4, 4, 4]], [[0, 0, 5], [5, 5, 5]], [[6, 6, 6, 6]], [[7, 7], [7, 7]]
     ]
 
     renkler = ["black", "purple", "green", "red", "blue", "orange", "cyan", "yellow"]
@@ -74,28 +75,23 @@ def tetris_oyunu():
                         return True
         return False
 
-    # Başlangıç değişkenleri
-    gecerli_parca = random.choice(sekiller)
-    px, py = 3, 0
-    oyun_devam = True
+    durum = {"px": 3, "py": 0, "parca": random.choice(sekiller), "oyun_devam": True}
 
-    # Kontroller
-    def sola(): nonlocal px; px -= 1 if not carpisma_var_mi(grid, gecerli_parca, px - 1, py) else 0
-    def saga(): nonlocal px; px += 1 if not carpisma_var_mi(grid, gecerli_parca, px + 1, py) else 0
+    def sola(): 
+        if not carpisma_var_mi(grid, durum["parca"], durum["px"] - 1, durum["py"]): durum["px"] -= 1
+    def saga(): 
+        if not carpisma_var_mi(grid, durum["parca"], durum["px"] + 1, durum["py"]): durum["px"] += 1
     def dondur():
-        nonlocal gecerli_parca
-        yeni_parca = list(zip(*gecerli_parca[::-1]))
-        if not carpisma_var_mi(grid, yeni_parca, px, py): gecerli_parca = yeni_parca
+        yeni_parca = list(zip(*durum["parca"][::-1]))
+        if not carpisma_var_mi(grid, yeni_parca, durum["px"], durum["py"]): 
+            durum["parca"] = yeni_parca
     def hizlandir():
-        nonlocal py
-        # Aşağıda engel yoksa bir adım aşağı indir
-        if not carpisma_var_mi(grid, gecerli_parca, px, py + 1):
-            py += 1
+        if not carpisma_var_mi(grid, durum["parca"], durum["px"], durum["py"] + 1):
+            durum["py"] += 1
     def tam_asagi():
-        nonlocal py
-        # Çarpışma olana kadar py değerini artır
-        while not carpisma_var_mi(grid, gecerli_parca, px, py + 1):
-            py += 1
+        while not carpisma_var_mi(grid, durum["parca"], durum["px"], durum["py"] + 1):
+            durum["py"] += 1
+
     window.listen()
     window.onkeypress(sola, "Left")
     window.onkeypress(saga, "Right")
@@ -105,120 +101,137 @@ def tetris_oyunu():
 
     # Ana Döngü
     sayac = 0
-    while oyun_devam:
-        try:
-            ekrani_guncelle(grid, gecerli_parca, px, py)
+    try:
+        while durum["oyun_devam"]:
+            pen.clear()
+            for y in range(yukseklik):
+                for x in range(genislik): hucre_ciz(x, y, grid[y][x])
+            for y, satir in enumerate(durum["parca"]):
+                for x, deger in enumerate(satir):
+                    if deger: hucre_ciz(durum["px"] + x, durum["py"] + y, deger)
+            window.update()
             sayac += 1
-            if sayac % 10 == 0: # Düşme hızı
-                if not carpisma_var_mi(grid, gecerli_parca, px, py + 1):
-                    py += 1
+            if sayac % 10 == 0:
+                if not carpisma_var_mi(grid, durum["parca"], durum["px"], durum["py"] + 1):
+                    durum["py"] += 1
                 else:
-                    # Parçayı sabitle
-                    for y, satir in enumerate(gecerli_parca):
+                    for y, satir in enumerate(durum["parca"]):
                         for x, deger in enumerate(satir):
-                            if deger: grid[py + y][px + x] = deger
-                    
-                    # Satır temizleme (basit)
+                            if deger: grid[durum["py"] + y][durum["px"] + x] = deger
                     grid = [s for s in grid if 0 in s]
                     while len(grid) < yukseklik: grid.insert(0, [0]*genislik)
-                    
-                    # Yeni parça
-                    gecerli_parca = random.choice(sekiller)
-                    px, py = 3, 0
-                    if carpisma_var_mi(grid, gecerli_parca, px, py):
-                        oyun_devam = False
-            
+                    durum["px"], durum["py"], durum["parca"] = 3, 0, random.choice(sekiller)
+                    if carpisma_var_mi(grid, durum["parca"], durum["px"], durum["py"]): durum["oyun_devam"] = False
             time.sleep(0.05)
-        except:
-            break
-
-    print("Oyun bitti!")
-    window.clear()
-
+    except: pass
+    print("Tetris Bitti!")
 
 # --- YILAN OYUNU ---
 def yilan_oyunu():
-    s_score = 0
+    ekran_temizle()
+    screen = turtle.Screen()
+    screen.title("YILAN OYUNU")
+    screen.setup(width=700, height=700)
+    screen.tracer(0)
+    screen.bgcolor("#1d1d1d")
+
+    # Çerçeve Çizimi
+    border = turtle.Turtle()
+    border.speed(0)
+    border.pensize(4)
+    border.penup()
+    border.goto(-310, 250)
+    border.pendown()
+    border.color("red")
+    for _ in range(2):
+        border.forward(600)
+        border.right(90)
+        border.forward(500)
+        border.right(90)
+    border.hideturtle()
+
+    score = 0
     delay = 0.1
+    game_running = True
 
-    window = turtle.Screen()
-    window.title("Yılan Oyunu")
-    window.bgcolor("black")
-    window.setup(width=600, height=600)
-    window.tracer(0)
+    snake = turtle.Turtle("square")
+    snake.color("green")
+    snake.penup()
+    snake.goto(0,0)
+    snake.direction = 'stop'
 
-    # Yılan kafası
-    head = turtle.Turtle()
-    head.speed(0)
-    head.shape("square")
-    head.color("white")
-    head.penup()
-    head.goto(0,0)
-    head.direction = "stop"
+    fruit = turtle.Turtle("square")
+    fruit.color("white")
+    fruit.penup()
+    fruit.goto(30,30)
 
-    # Yiyecek
-    food = turtle.Turtle()
-    food.speed(0)
-    food.shape("circle")
-    food.color("red")
-    food.penup()
-    food.goto(0,100)
+    old_fruit = []
 
-    segments = []
+    scoring = turtle.Turtle()
+    scoring.color("white")
+    scoring.penup()
+    scoring.hideturtle()
+    scoring.goto(0, 260)
+    scoring.write("Score: 0", align="center", font=("Courier", 24, "bold"))
 
     def go_up():
-        if head.direction != "down": head.direction = "up"
+        if snake.direction != "down": snake.direction = "up"
     def go_down():
-        if head.direction != "up": head.direction = "down"
+        if snake.direction != "up": snake.direction = "down"
     def go_left():
-        if head.direction != "right": head.direction = "left"
+        if snake.direction != "right": snake.direction = "left"
     def go_right():
-        if head.direction != "left": head.direction = "right"
+        if snake.direction != "left": snake.direction = "right"
 
-    def move():
-        if head.direction == "up": head.sety(head.ycor() + 20)
-        if head.direction == "down": head.sety(head.ycor() - 20)
-        if head.direction == "left": head.setx(head.xcor() - 20)
-        if head.direction == "right": head.setx(head.xcor() + 20)
+    screen.listen()
+    screen.onkeypress(go_up, "Up")
+    screen.onkeypress(go_down, "Down")
+    screen.onkeypress(go_left, "Left")
+    screen.onkeypress(go_right, "Right")
 
-    window.listen()
-    window.onkeypress(go_up, "w")
-    window.onkeypress(go_down, "s")
-    window.onkeypress(go_left, "a")
-    window.onkeypress(go_right, "d")
+    try:
+        while game_running:
+            screen.update()
 
-    # Oyun Döngüsü
-    for _ in range(1000): # Belirli bir süre sonra kapanması için veya while True
-        window.update()
+            if snake.distance(fruit) < 20:
+                fruit.goto(random.randint(-290, 270), random.randint(-240, 240))
+                score += 1
+                scoring.clear()
+                scoring.write("Score: {}".format(score), align="center", font=("Courier", 24, "bold"))
+                delay = max(0.05, delay - 0.002)
+                
+                new_segment = turtle.Turtle("square")
+                new_segment.color("red")
+                new_segment.penup()
+                old_fruit.append(new_segment)
+
+            for index in range(len(old_fruit)-1, 0, -1):
+                old_fruit[index].goto(old_fruit[index-1].pos())
+
+            if len(old_fruit) > 0:
+                old_fruit[0].goto(snake.pos())
+
+            if snake.direction == "up": snake.sety(snake.ycor() + 20)
+            if snake.direction == "down": snake.sety(snake.ycor() - 20)
+            if snake.direction == "left": snake.setx(snake.xcor() - 20)
+            if snake.direction == "right": snake.setx(snake.xcor() + 20)
+
+            # Çarpışma Kontrolleri
+            if snake.xcor() > 280 or snake.xcor() < -300 or snake.ycor() > 240 or snake.ycor() < -240:
+                game_running = False
+
+            for segment in old_fruit:
+                if segment.distance(snake) < 20:
+                    game_running = False
+
+            time.sleep(delay)
         
-        # Kenar çarpışması
-        if head.xcor()>290 or head.xcor()<-290 or head.ycor()>290 or head.ycor()<-290:
-            time.sleep(1)
-            break
-
-        # Yiyecek yeme
-        if head.distance(food) < 20:
-            food.goto(random.randint(-290, 290), random.randint(-290, 290))
-            new_segment = turtle.Turtle()
-            new_segment.speed(0)
-            new_segment.shape("square")
-            new_segment.color("grey")
-            new_segment.penup()
-            segments.append(new_segment)
-
-        for index in range(len(segments)-1, 0, -1):
-            segments[index].goto(segments[index-1].xcor(), segments[index-1].ycor())
-        if len(segments) > 0:
-            segments[0].goto(head.xcor(), head.ycor())
-
-        move()
-        time.sleep(delay)
-    
-    print("Oyun bitti!")
-    window.clearscreen()
-    window.bye()
-
-
+        scoring.goto(0, 0)
+        scoring.write("GAME OVER\nScore: {}".format(score), align="center", font=("Courier", 30, "bold"))
+        screen.update()
+        time.sleep(2)
+    except: pass
+    print("Yılan Oyunu Bitti!")
 
 # --- UÇAK OYUNU ---
 def ucak_oyunu():
@@ -301,7 +314,7 @@ def ucak_oyunu():
                         enemy.goto(random.randint(-280, 280), random.randint(200, 400))
                         bullet.hideturtle()
                         if bullet in bullets: bullets.remove(bullet)
-                        print(f"Puan: {score}")
+                        #print(f"Puan: {score}")
 
                 # Düşman bize çarptı mı?
                 if enemy.distance(player) < 30:
@@ -319,12 +332,12 @@ def calistir():
     while True:
         print("-"*30)
         print("╔═══════════════════════╗")
-        print("║    Oyunlar            ║")
+        print("║                       ║")
+        print("║        OYUNLAR        ║")
         print("║                       ║")
         print("║  1-Tetris             ║")
         print("║  2-Yılan              ║")
         print("║  3-Savaş Uçağı        ║")
-        print("║                       ║")
         print("║                       ║")
         print("║  0-Çıkış              ║")
         print("║                       ║")
@@ -332,22 +345,23 @@ def calistir():
         print("╚═══════════════════════╝")
 
         try:
-            secim = int(input("Lütfen bir oyun seçiniz:\t"))
-            if secim == 1:
-                print("Tetris oyununu seçtiniz.\n\n")
+            secim = input("Lütfen bir oyun seçiniz: ")
+            if secim == "1": 
+                print("Tetris oyununu seçtiniz. Tuşlar: Yön tuşları + hızlı indirmek için space tuşu.")
                 tetris_oyunu()
-            elif secim == 2:
-                print("Yılan oyununu seçtiniz.\n\n")
+            elif secim == "2": 
+                print("Yılan oyununu seçtiniz. Tuşlar: Yön tuşları.")
                 yilan_oyunu()
-            elif secim == 3:
-                print("Savaş uçağı seçtiniz.\n\n")
+            elif secim == "3":
+                print("Savaş uçağı oyununu seçtiniz. Tuşlar: Yön tuşları + ateş etmek için space tuşu.")
                 ucak_oyunu()
-            elif secim == 0:
-                print('Ana menüye dönülüyor...')
+            elif secim == "0":
+                print("Ana menüye yönlendiriliyorsunuz...")
                 break
             else:
-                print("Lütfen oyun menüsünde belirtilen oyunlardan birini seçiniz!")
+                print("Lütfen menüdeki oyunlardan birini seçiniz")
         except ValueError:
-            print("Hata: Lütfen sayı giriniz!")
+            print("Geçersiz seçim yaptınız.")    
+
 if __name__ == "__main__":
-    calistir()    
+    calistir()
