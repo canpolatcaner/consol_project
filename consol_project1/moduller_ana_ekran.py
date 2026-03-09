@@ -1,4 +1,6 @@
 #main_menu
+#import moduller1.hesap_makinesi as hesap
+#import moduller1.sekil_cizdirme2 as sekil
 while True:
     print("-"*30)
     print("╔═══════════════════════╗")
@@ -18,7 +20,7 @@ while True:
         a = int(input("Lütfen bir işlem seçiniz:\t"))
         if a == 1:
             print(f"{a}'e bastınız; Hesaplamalar bölümüne yönlendiriliyorsunuz.\n\n")
-            import moduller1.hesap_makinesi
+            import moduller1.hesap_makinesi #hesap.hesap_makinesi_menu() 'döngüyü devam ettiren doğru kullanımdır' 
         elif a == 2:
             print(f"{a}'ye bastınız; Şekil Çizdirme bölümüne yönlendiriliyorsunuz.\n\n")
             import moduller1.sekil_cizdirme2
@@ -35,3 +37,4 @@ while True:
             print("Lütfen Hesap Makinesinde belirtilen işlemlerden birini seçiniz!\n"*3)
     except ValueError:
         print("Hata: Lütfen sayı giriniz!")
+        
