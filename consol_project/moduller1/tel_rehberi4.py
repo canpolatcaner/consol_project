@@ -1,8 +1,17 @@
 import sqlite3
 import os
+import sys
+
+
 
 # --- VERİTABANI VE DOSYA YOLU AYARLARI ---
-DIZIN = os.path.dirname(os.path.abspath(__file__))
+if getattr(sys, 'frozen', False):
+    # Eğer program .exe olarak çalışıyorsa (frozen ise)
+    DIZIN = os.path.dirname(sys.executable)
+else:
+    # Eğer program normal .py olarak çalışıyorsa
+    DIZIN = os.path.dirname(os.path.abspath(__file__))
+
 DB_YOLU = os.path.join(DIZIN, "rehber_final.db")
 
 def db_hazirla():

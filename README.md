@@ -5,19 +5,18 @@
 ## *_consol(e)ing..._*:laughing:
 
 <p align="center">
-  <img src="consol_mainmenu.JPG" alt="anaekran" width="200" height="200"/>
+  <img src="main_menu.JPG" alt="anaekran" width="200" height="200"/>
 </p>
 
 <p align="left">
-  <img src="consol_submenu1.JPG" alt="altmenu1" width="200" height="200"/>
+  <img src="sub_menu_calculator.JPG" alt="altmenu1" width="200" height="200"/>
 </p>
-
-
 <p align="center">
-  <img src="https://www.safetysign.com/images/source/medium-images/G7010.png" alt="çalışılan" width="100" height="100"/>
+  <img src="sub_menu_design.JPG" alt="altmenu2" width="200" height="200"/>
 </p>
-
 <p align="right">
-  <img src="https://www.clker.com/cliparts/i/w/L/q/u/1/work-in-progress-md.png" alt="wip" width="200" height="100"/>
+  <img src="sub_menu_games.JPG" alt="altmenu3" width="200" height="200"/>
 </p>
-
+<p align="left">
+  <img src="sub_menu_tel.JPG" alt="altmenu4" width="200" height="200"/>
+</p>
