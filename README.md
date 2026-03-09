@@ -10,13 +10,13 @@
 
 <p align="left">
   <img src="sub_menu_calculator.JPG" alt="altmenu1" width="200" height="200"/>
-</p>
+
 <p align="center">
   <img src="sub_menu_design.JPG" alt="altmenu2" width="200" height="200"/>
-</p>
+
 <p align="right">
   <img src="sub_menu_games.JPG" alt="altmenu3" width="200" height="200"/>
-</p>
+
 <p align="left">
   <img src="sub_menu_tel.JPG" alt="altmenu4" width="200" height="200"/>
 </p>
